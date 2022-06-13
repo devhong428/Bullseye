@@ -20,57 +20,73 @@ struct ContentView: View {
     var body: some View {
         let roundedValue: Int = Int(sliderValue.rounded())
     
-        VStack {
-            Text("🎯🎯🎯\nPUT THE BULLSEYE AS CLOSE AS YOU CAN DO")
-                .bold()
-                .kerning(2.0)
-                .multilineTextAlignment(.center)
-                .lineSpacing(4.0)
-                //instead of font size, chose the type
-                .font(.footnote)
-            Text(String(game.target))
-                .kerning(-1.0)
-                .font(.largeTitle)
-                .fontWeight(.black)
-            
-            HStack {
-                Text("1")
+        ZStack {
+            Color("BackgroundColor")
+                .edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("🎯🎯🎯\nPUT THE BULLSEYE AS CLOSE AS YOU CAN DO")
                     .bold()
-                Slider(value: $sliderValue, in: 1.0...100.0)
-                Text("100")
-                    .bold()
-            }
-            
-            Button(action: {
-                print("Hello, SwiftUI!")
-                alertIsVisible = true
-            }) {
-                Text("Hit me")
-            }
-            .alert("Hello there!", isPresented: $alertIsVisible) {
-              Button("Awesome!") { }
-            } message: {
-                Text("The slider's value is \(roundedValue).\n" + "You scored \(game.points(sliderValue: roundedValue)) points this round.")
-            }
+                    .kerning(2.0)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(4.0)
+                    //instead of font size, chose the type
+                    .font(.footnote)
+                Text(String(game.target))
+                    .kerning(-1.0)
+                    .font(.largeTitle)
+                    .fontWeight(.black)
+                
+                HStack {
+                    Text("1")
+                        .bold()
+                    Slider(value: $sliderValue, in: 1.0...100.0)
+                    Text("100")
+                        .bold()
+                }.padding()
+                
+                Button(action: {
+                    print("Hello, SwiftUI!")
+                    alertIsVisible = true
+                }) {
+                    Text("Hit me".uppercased())
+                        .bold()
+                        .font(.title3)
+                }
+                .padding(20.0)
+                .background(
+                    ZStack {
+                        Color("ButtonColor")
+                        LinearGradient(
+                            gradient:Gradient(colors: [Color.white.opacity(0.3), Color.clear]),
+                            startPoint: .top, endPoint: .bottom)
+                    }
+                )
+                .foregroundColor(Color.white)
+                .cornerRadius(21.0)
+                
+                .alert("Hello there!", isPresented: $alertIsVisible) {
+                  Button("Awesome!") { }
+                } message: {
+                    Text("The slider's value is \(roundedValue).\n" + "You scored \(game.points(sliderValue: roundedValue)) points this round.")
+                }
 
-//            Button("Knock Knock", action: {
-//                print("Challenge Time")
-//                self.whosThereVisible = true
-//            })
-//            .alert("Who's There?", isPresented: $whosThereVisible) {
-//              Button("Little old lady who?") { }
-//            } message: {
-//              Text("Little old lady.")
-//            }
-            
-    }
+    //            Button("Knock Knock", action: {
+    //                print("Challenge Time")
+    //                self.whosThereVisible = true
+    //            })
+    //            .alert("Who's There?", isPresented: $whosThereVisible) {
+    //              Button("Little old lady who?") { }
+    //            } message: {
+    //              Text("Little old lady.")
+    //            }
+                
+            }
+        }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-        ContentView()
-            .previewInterfaceOrientation(.landscapeLeft)
     }
 }
 }
